@@ -1,0 +1,10 @@
+spring:
+  datasource:
+    driver-class-name: com.mysql.jdbc.Driver
+    username: root
+    password: root
+    url: jdbc:mysql://localhost:3306/db_examhelper?useSSL=false&useUnicode=yes&characterEncoding=UTF8
+server:
+  port: 8088
+mybatis:
+  mapper-locations: classpath:mapper/*.xml
