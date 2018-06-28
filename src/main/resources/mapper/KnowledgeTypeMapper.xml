@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.kason.app.dao.KnowledgeTypeMapper" >
+  <resultMap id="BaseResultMap" type="com.kason.app.entity.KnowledgeType" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="chapter" property="chapter" jdbcType="VARCHAR" />
+    <result column="date" property="date" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, chapter, date
+  </sql>
+
+  <select id="selectAll" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from knowledge_type
+  </select>
+  <select id="selectByChapterAndDate" resultMap="BaseResultMap" parameterType="com.kason.app.entity.KnowledgeType" >
+    select
+    <include refid="Base_Column_List" />
+    from knowledge_type
+    where chapter = #{chapter,jdbcType=VARCHAR} and date = #{date,jdbcType=DATE}
+  </select>
+  <select id="selectByChapter" resultMap="BaseResultMap" parameterType="com.kason.app.entity.KnowledgeType" >
+    select
+    <include refid="Base_Column_List" />
+    from knowledge_type
+    where chapter = #{chapter,jdbcType=VARCHAR}
+  </select>
+
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select
+    <include refid="Base_Column_List" />
+    from knowledge_type
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from knowledge_type
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.kason.app.entity.KnowledgeType" >
+    insert into knowledge_type (id, chapter, date
+      )
+    values (#{id,jdbcType=INTEGER}, #{chapter,jdbcType=VARCHAR}, #{date,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.kason.app.entity.KnowledgeType" >
+    insert into knowledge_type
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="chapter != null" >
+        chapter,
+      </if>
+      <if test="date != null" >
+        date,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="chapter != null" >
+        #{chapter,jdbcType=VARCHAR},
+      </if>
+      <if test="date != null" >
+        #{date,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.kason.app.entity.KnowledgeType" >
+    update knowledge_type
+    <set >
+      <if test="chapter != null" >
+        chapter = #{chapter,jdbcType=VARCHAR},
+      </if>
+      <if test="date != null" >
+        date = #{date,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.kason.app.entity.KnowledgeType" >
+    update knowledge_type
+    set chapter = #{chapter,jdbcType=VARCHAR},
+      date = #{date,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

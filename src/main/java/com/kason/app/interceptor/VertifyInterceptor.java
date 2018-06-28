@@ -20,6 +20,7 @@ import javax.servlet.ServletInputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletRequestWrapper;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -46,11 +47,7 @@ public class VertifyInterceptor implements HandlerInterceptor {
         uriList.add("/certificate/getall");
         uriList.add("/examtype/getall");
         uriList.add("/member/login");
-    }
-
-    private class HandleManager {
-        String username;
-        String password;
+        uriList.add("/kenowledgetype/getall");
     }
 
     @Override
@@ -74,47 +71,11 @@ public class VertifyInterceptor implements HandlerInterceptor {
             if (uri.equals(list)) return true;
         }
 
-
-        if (request.getParameter("token") == null || "".equals(request.getParameter("token"))) {
-            String username = request.getHeader("username");
-            String password = request.getHeader("password");
-            if (username == null || "".equals(username.trim())) {
-                log.error(" Verify Error.Result={}", "账号验证过期或者失败，请重新登陆.username=null");
-                throw new AppException(ResultEnum.VERTIFY_ERROR);
-            }
-            if (password == null || "".equals(password.trim())) {
-                log.error(" Verify Error.Result={}", "账号验证过期或者失败，请重新登陆.password=null");
-                throw new AppException(ResultEnum.VERTIFY_ERROR);
-            }
-            return UPInterceptor(username, password);
-        } else {
-            try {
-                return TokenInterceptor(Integer.parseInt(request.getParameter("phone")), request.getParameter("token"));
-            } catch (NumberFormatException e) {
-                throw new AppException(ResultEnum.PHONE_ERROR);
-            }
-        }
-    }
-
-    private boolean UPInterceptor(String username, String password) {
-        Manager manager = new Manager();
-        manager.setUsername(username);
-        manager.setPassword(password);
-        if (managerService.getManager(manager) == null) {
-            log.error(" Verify Error.Result={}", "账号验证过期或者失败，请重新登陆.username,password error");
-            throw new AppException(ResultEnum.VERTIFY_ERROR);
+        HttpSession session = request.getSession();
+        if(session.getAttribute("user")==null){
+            return false;
         }
         return true;
     }
 
-    private boolean TokenInterceptor(Integer phone, String token) {
-        Member member = new Member();
-        member.setPhone(phone);
-        member.setToken(token);
-        if (memberMapper.selectByPhoneAndPassword(member) == null) {
-            log.error(" Verify Error.Result={}", "账号验证过期或者失败，请重新登陆.");
-            throw new AppException(ResultEnum.MEMBER_ERROR);
-        }
-        return true;
-    }
 }

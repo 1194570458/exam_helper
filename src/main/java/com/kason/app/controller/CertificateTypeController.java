@@ -19,7 +19,7 @@ import java.util.List;
 public class CertificateTypeController {
 
     @Autowired
-    CertificateTypeService certificateTypeService;
+    private CertificateTypeService certificateTypeService;
 
     @GetMapping(value = "/getall")
     public Result<CertificateType> getAllCertificateType() {
