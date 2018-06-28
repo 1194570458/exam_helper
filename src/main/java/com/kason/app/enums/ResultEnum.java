@@ -19,13 +19,13 @@ public enum ResultEnum {
     MEMBER_PHONE_NULL(15,"手机号码不能为空"),
     MEMBER_PASSWORD_NULL(16,"用户密码不能为空"),
     KNOWLEDGE_TYPE_EXIST(17,"该章节已经存在"),
-    KNOWLEDGE_CHAPTER_NULL(18,"章节名称不能为空"),
-    KNOWLEDGE_DATE_NULL(18,"章节时间不能为空"),
-    KNOWLEDGE_ID_NULL(19,"章节ID不能为空"),
-    KNOWLEDGE_ERROR(20,"更新章节数据失败"),
-    KNOWLEDGE_TYPE_NULL(20,"该章节不存在"),
+    KNOWLEDGE_CHAPTER_NULL(19,"章节名称不能为空"),
+    KNOWLEDGE_DATE_NULL(20,"章节时间不能为空"),
+    KNOWLEDGE_ID_NULL(21,"章节ID不能为空"),
+    KNOWLEDGE_ERROR(22,"更新章节数据失败"),
+    KNOWLEDGE_TYPE_NULL(23,"该章节不存在"),
 
-    VERTIFY_ERROR(99,"登陆过期")
+    VERTIFY_ERROR(99,"请登陆后操作")
     ;
     private Integer code;
     private String msg;

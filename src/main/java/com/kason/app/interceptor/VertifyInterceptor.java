@@ -32,24 +32,6 @@ import java.util.Map;
 @Component
 public class VertifyInterceptor implements HandlerInterceptor {
 
-    private final static Logger log = LoggerFactory.getLogger(VertifyInterceptor.class);
-
-    @Autowired
-    private ManagerService managerService;
-    @Autowired
-    private MemberMapper memberMapper;
-
-    private static List<String> uriList = null;
-
-    static {
-        uriList = new ArrayList<>();
-        uriList.add("/manager/login");
-        uriList.add("/certificate/getall");
-        uriList.add("/examtype/getall");
-        uriList.add("/member/login");
-        uriList.add("/kenowledgetype/getall");
-    }
-
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         request.setCharacterEncoding("utf-8");
@@ -60,20 +42,14 @@ public class VertifyInterceptor implements HandlerInterceptor {
         response.addHeader("Access-Control-Allow-Headers", "x-requested-with,Content-Type,username,password");
 
         //跨域设置自定义头 首次options要跳过
-        if(request.getMethod().contains("OPTIONS")) {
+        if (request.getMethod().contains("OPTIONS")) {
             response.setStatus(202);
             return false;
         }
 
-        //对特定请求不拦截
-        String uri = request.getRequestURI();
-        for (String list : uriList) {
-            if (uri.equals(list)) return true;
-        }
-
         HttpSession session = request.getSession();
-        if(session.getAttribute("user")==null){
-            return false;
+        if (session.getAttribute("user") == null) {
+            throw new AppException(ResultEnum.VERTIFY_ERROR);
         }
         return true;
     }

@@ -11,6 +11,8 @@ import com.kason.app.utils.ResultUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpSession;
+
 @RestController
 @CrossOrigin
 
@@ -21,7 +23,7 @@ public class ManagerController {
     private ManagerService managerService;
 
     @PostMapping(value = "/login")
-    public Result<Manager> managerLogin(@RequestBody Manager manager) {
+    public Result<Manager> managerLogin(@RequestBody Manager manager, HttpSession session) {
         if (manager.getUsername() == null || "".equals(manager.getUsername())) {
             throw new AppException(ResultEnum.MANAGER_USERNAME_NULL);
         }
@@ -32,6 +34,7 @@ public class ManagerController {
         if (manager == null) {
             throw new AppException(ResultEnum.MANAGER_LOGIN_ERROR);
         }
+        session.setAttribute("user", manager);
         return ResultUtil.success(manager);
     }
 }

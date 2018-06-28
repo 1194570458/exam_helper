@@ -34,6 +34,7 @@ public class AppApplication {
         @Override
         public void addInterceptors(InterceptorRegistry registry) {
             registry.addInterceptor(vertifyInterceptor())    //指定拦截器类
+                    .excludePathPatterns("/manager/login")
                     .addPathPatterns("/**");              //指定拦截路径（所有路径）
         }
     }
