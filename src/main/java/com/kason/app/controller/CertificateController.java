@@ -17,9 +17,20 @@ public class CertificateController {
     @Autowired
     private CertificateService certificateService;
 
+    /**
+     * 添加或者更新证书
+     * @param certificate
+     * @return
+     */
     @PostMapping("certificate")
     public Result<Certificate> certificate(@RequestBody Certificate certificate){
-        Certificate c =certificateService.addCertificate(certificate);
+        Certificate c=null;
+        if(certificate.getCerId()==null){
+             c =certificateService.addCertificate(certificate);
+        }
+        if(certificate.getCerId()>0){
+            c  =certificateService.updateCertificate(certificate);
+        }
         return ResultUtil.success(c);
     }
 

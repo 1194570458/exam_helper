@@ -19,13 +19,13 @@
     delete from certificate
     where cer_id = #{cerId,jdbcType=INTEGER}
   </delete>
-  <insert id="insert" parameterType="com.kason.app.entity.Certificate" >
+  <insert id="insert" parameterType="com.kason.app.entity.Certificate" useGeneratedKeys="true" keyProperty="cerId">
     insert into certificate (cer_id, name, grade
       )
     values (#{cerId,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{grade,jdbcType=VARCHAR}
       )
   </insert>
-  <insert id="insertSelective" parameterType="com.kason.app.entity.Certificate" >
+  <insert id="insertSelective" parameterType="com.kason.app.entity.Certificate" useGeneratedKeys="true" keyProperty="cerId" >
     insert into certificate
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="cerId != null" >
