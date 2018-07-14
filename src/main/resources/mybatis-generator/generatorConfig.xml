@@ -21,26 +21,37 @@
         </javaTypeResolver>
         <!-- 生成模型的包名和位置-->
         <javaModelGenerator targetPackage="com.kason.app.entity"
-                            targetProject="/Users/kason/Desktop/软考助手/src/main/java">
+                            targetProject="/Volumes/Data/project/软考助手/src/main/java">
             <property name="enableSubPackages" value="true"/>
             <property name="trimStrings" value="true"/>
         </javaModelGenerator>
         <!-- 生成映射文件的包名和位置-->
-        <sqlMapGenerator targetPackage="mapper" targetProject="/Users/kason/Desktop/软考助手/src/main/resources">
+        <sqlMapGenerator targetPackage="mapper" targetProject="/Volumes/Data/project/软考助手/src/main/resources">
             <property name="enableSubPackages" value="true"/>
         </sqlMapGenerator>
         <!-- 生成DAO的包名和位置-->
         <javaClientGenerator type="XMLMAPPER" targetPackage="com.kason.app.dao"
-                             targetProject="/Users/kason/Desktop/软考助手/src/main/java">
+                             targetProject="/Volumes/Data/project/软考助手/src/main/java">
             <property name="enableSubPackages" value="true"/>
         </javaClientGenerator>
         <!-- 要生成的表 tableName是数据库中的表名或视图名 domainObjectName是实体类名-->
-        <table tableName="knowledge_type" domainObjectName="KnowledgeType" enableCountByExample="false"
+        <table tableName="case" domainObjectName="Case" enableCountByExample="false"
                enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false"
                selectByExampleQueryId="false"></table>
-        <table tableName="knowledge_paper" domainObjectName="KnowledgePaper" enableCountByExample="false"
+        <table tableName="certificate" domainObjectName="Certificate" enableCountByExample="false"
                enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false"
                selectByExampleQueryId="false"></table>
-
+        <table tableName="property" domainObjectName="Property" enableCountByExample="false"
+               enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false"
+               selectByExampleQueryId="false"></table>
+        <table tableName="synthesize" domainObjectName="Synthesize" enableCountByExample="false"
+               enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false"
+               selectByExampleQueryId="false"></table>
+        <table tableName="thesis" domainObjectName="Thesis" enableCountByExample="false"
+               enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false"
+               selectByExampleQueryId="false"></table>
+        <table tableName="user" domainObjectName="User" enableCountByExample="false"
+               enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false"
+               selectByExampleQueryId="false"></table>
     </context>
 </generatorConfiguration>  
