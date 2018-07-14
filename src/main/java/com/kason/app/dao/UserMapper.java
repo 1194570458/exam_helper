@@ -1,6 +1,7 @@
 package com.kason.app.dao;
 
 import com.kason.app.entity.User;
+import org.apache.ibatis.annotations.Select;
 
 public interface UserMapper {
     int deleteByPrimaryKey(Integer userId);
@@ -14,4 +15,10 @@ public interface UserMapper {
     int updateByPrimaryKeySelective(User record);
 
     int updateByPrimaryKey(User record);
+
+    User selectByUsernameAndPassowrd(String username, String password);
+
+    User selectByUserName(String username);
+
+    User selectByToken(String token);
 }

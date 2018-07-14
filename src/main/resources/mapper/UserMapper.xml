@@ -22,13 +22,35 @@
     select 
     <include refid="Base_Column_List" />
     from user
-    where user_id = #{userId,jdbcType=INTEGER}
+    where user_id = #{userId,jdbcType=INTEGER} and status=1
+  </select>
+  <select id="selectByUsernameAndPassowrd" resultMap="BaseResultMap" >
+    select
+    <include refid="Base_Column_List" />
+    from user
+    where username = #{username,jdbcType=VARCHAR}
+    and password = #{password,jdbcType=VARCHAR}
+    and status=1
+  </select>
+  <select id="selectByUserName" resultMap="BaseResultMap" >
+    select
+    <include refid="Base_Column_List" />
+    from user
+    where username = #{username,jdbcType=VARCHAR}
+    and status=1
+  </select>
+  <select id="selectByToken" resultMap="BaseResultMap" >
+    select
+    <include refid="Base_Column_List" />
+    from user
+    where token = #{token,jdbcType=VARCHAR}
+    and status=1
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
     delete from user
     where user_id = #{userId,jdbcType=INTEGER}
   </delete>
-  <insert id="insert" parameterType="com.kason.app.entity.User" >
+  <insert id="insert" parameterType="com.kason.app.entity.User"  useGeneratedKeys="true" keyProperty="user_id" >
     insert into user (user_id, username, password, 
       role, token, create_date, 
       status, wechar_openid, qq_number, 
@@ -38,7 +60,7 @@
       #{status,jdbcType=INTEGER}, #{wecharOpenid,jdbcType=VARCHAR}, #{qqNumber,jdbcType=VARCHAR}, 
       #{qqOpenid,jdbcType=VARCHAR}, #{cerId,jdbcType=INTEGER})
   </insert>
-  <insert id="insertSelective" parameterType="com.kason.app.entity.User" >
+  <insert id="insertSelective" parameterType="com.kason.app.entity.User" useGeneratedKeys="true" keyProperty="user_id" >
     insert into user
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="userId != null" >
