@@ -1,14 +1,7 @@
 package com.kason.app.interceptor;
 
-import com.kason.app.dao.MemberMapper;
-import com.kason.app.entity.Manager;
-import com.kason.app.entity.Member;
 import com.kason.app.enums.ResultEnum;
 import com.kason.app.exception.AppException;
-import com.kason.app.service.ManagerService;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.client.support.HttpRequestWrapper;
 import org.springframework.stereotype.Component;

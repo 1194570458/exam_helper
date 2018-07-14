@@ -69,8 +69,8 @@ public class UserController {
      * @param token
      * @return
      */
-    @GetMapping("/user")
-    public Result<User> user(String token) {
+    @GetMapping("/user/{token}")
+    public Result<User> user(@PathVariable("token") String token) {
         User user = userService.getUser(token);
         return ResultUtil.success(user);
     }
