@@ -10,4 +10,6 @@ public interface UserService {
     User getUser(String token);
 
     User updateUser(User user);
+
+    User getUser(Integer id);
 }

@@ -7,6 +7,7 @@ import com.kason.app.utils.ResultUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.websocket.server.PathParam;
 import java.util.Date;
 
 @RestController
@@ -34,11 +35,14 @@ public class UserController {
         }
         User u = null;
         if (user.getUserId() == null) {
-            user.setStatus(1);
-            user.setCreateDate(new Date());
+            if (user.getCerId()==null) {
+                return ResultUtil.error(-1,"证书id错误");
+            }
+            if (user.getCerId()<=0) {
+                return ResultUtil.error(-1,"证书id错误");
+            }
             u = userService.addUser(user);
-        }
-        if (user.getUserId() > 0) {
+        } else if (user.getUserId() > 0) {
             u = userService.updateUser(user);
         }
         return ResultUtil.success(u);
@@ -69,8 +73,8 @@ public class UserController {
      * @param token
      * @return
      */
-    @GetMapping("/user/{token}")
-    public Result<User> user(@PathVariable("token") String token) {
+    @GetMapping("/user/token/{token}")
+    public Result<User> getUser(@PathVariable("token") String token) {
         User user = userService.getUser(token);
         return ResultUtil.success(user);
     }
@@ -81,13 +85,24 @@ public class UserController {
      * @param id
      * @return
      */
-    @GetMapping("/user/{id}")
-    public Result user(@PathVariable("id") Integer id) {
+    @PostMapping("/user/{id}")
+    public Result delUser(@PathVariable("id") Integer id) {
         User user = new User();
         user.setUserId(id);
         user.setStatus(-1);
         userService.updateUser(user);
         return ResultUtil.success();
+    }
+
+    /**
+     * 根据用户id获取用户信息
+     * @param id
+     * @return
+     */
+    @GetMapping("/user/{id}")
+    public Result<User> getUser(@PathVariable("id") Integer id){
+        User user = userService.getUser(id);
+        return ResultUtil.success(user);
     }
 
 }

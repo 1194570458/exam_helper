@@ -2,6 +2,8 @@ package com.kason.app.dao;
 
 import com.kason.app.entity.Certificate;
 
+import java.util.List;
+
 public interface CertificateMapper {
     int deleteByPrimaryKey(Integer cerId);
 
@@ -14,4 +16,6 @@ public interface CertificateMapper {
     int updateByPrimaryKeySelective(Certificate record);
 
     int updateByPrimaryKey(Certificate record);
+
+    List<Certificate> selectAll();
 }

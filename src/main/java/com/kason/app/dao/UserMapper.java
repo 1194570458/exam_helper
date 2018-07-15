@@ -1,6 +1,7 @@
 package com.kason.app.dao;
 
 import com.kason.app.entity.User;
+import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 
 public interface UserMapper {
@@ -16,7 +17,7 @@ public interface UserMapper {
 
     int updateByPrimaryKey(User record);
 
-    User selectByUsernameAndPassowrd(String username, String password);
+    User selectByUsernameAndPassowrd(@Param("username") String username, @Param("password") String password);
 
     User selectByUserName(String username);
 

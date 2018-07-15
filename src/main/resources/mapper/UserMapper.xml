@@ -50,7 +50,7 @@
     delete from user
     where user_id = #{userId,jdbcType=INTEGER}
   </delete>
-  <insert id="insert" parameterType="com.kason.app.entity.User"  useGeneratedKeys="true" keyProperty="user_id" >
+  <insert id="insert" parameterType="com.kason.app.entity.User"  useGeneratedKeys="true" keyProperty="userId" >
     insert into user (user_id, username, password, 
       role, token, create_date, 
       status, wechar_openid, qq_number, 
@@ -60,7 +60,7 @@
       #{status,jdbcType=INTEGER}, #{wecharOpenid,jdbcType=VARCHAR}, #{qqNumber,jdbcType=VARCHAR}, 
       #{qqOpenid,jdbcType=VARCHAR}, #{cerId,jdbcType=INTEGER})
   </insert>
-  <insert id="insertSelective" parameterType="com.kason.app.entity.User" useGeneratedKeys="true" keyProperty="user_id" >
+  <insert id="insertSelective" parameterType="com.kason.app.entity.User" useGeneratedKeys="true" keyProperty="userId" >
     insert into user
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="userId != null" >
