@@ -7,9 +7,6 @@ import com.kason.app.utils.ResultUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import javax.websocket.server.PathParam;
-import java.util.Date;
-
 @RestController
 @CrossOrigin
 public class UserController {
@@ -104,5 +101,8 @@ public class UserController {
         User user = userService.getUser(id);
         return ResultUtil.success(user);
     }
+
+
+
 
 }
