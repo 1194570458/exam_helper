@@ -1,5 +1,7 @@
 package com.kason.app.entity;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 import java.util.Date;
 
 public class Property {
@@ -7,6 +9,7 @@ public class Property {
 
     private String chapter;
 
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date time;
 
     public Integer getProId() {

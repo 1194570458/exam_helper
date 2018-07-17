@@ -8,6 +8,8 @@ public enum ResultEnum {
     CERTIFICATE_EXIST(4,"证书已经存在"),
     CERTIFICATE_NOT_EXIST(5,"证书不存在"),
     USER_NOT_EXIST(6,"用户不存在"),
+    PROPERTY_USED(7,"章节正在被使用"),
+    CERTIFICATE_USED(8,"证书正在被使用"),
 
 
     VERTIFY_ERROR(99,"请登陆后操作")
