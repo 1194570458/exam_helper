@@ -3,12 +3,13 @@
 <mapper namespace="com.kason.app.dao.ThesisMapper" >
   <resultMap id="BaseResultMap" type="com.kason.app.entity.Thesis" >
     <id column="thesis_id" property="thesisId" jdbcType="INTEGER" />
+    <result column="title" property="title" jdbcType="VARCHAR" />
     <result column="content" property="content" jdbcType="VARCHAR" />
     <result column="pro_id" property="proId" jdbcType="INTEGER" />
     <result column="cer_id" property="cerId" jdbcType="INTEGER" />
   </resultMap>
   <sql id="Base_Column_List" >
-    thesis_id, content, pro_id, cer_id
+    thesis_id, title ,content, pro_id, cer_id
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 
@@ -16,21 +17,35 @@
     from thesis
     where thesis_id = #{thesisId,jdbcType=INTEGER}
   </select>
+  <select id="selectAll" resultMap="BaseResultMap" >
+    select
+    <include refid="Base_Column_List" />
+    from thesis
+  </select>
+  <select id="selectByCerIdAndProId" resultMap="BaseResultMap"  parameterType="java.lang.Integer" >
+    select
+    <include refid="Base_Column_List" />
+    from thesis
+    where pro_id = #{proId,jdbcType=INTEGER} and cer_id = #{cerId,jdbcType=INTEGER}
+  </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
     delete from thesis
     where thesis_id = #{thesisId,jdbcType=INTEGER}
   </delete>
-  <insert id="insert" parameterType="com.kason.app.entity.Thesis" >
-    insert into thesis (thesis_id, content, pro_id, 
+  <insert id="insert" parameterType="com.kason.app.entity.Thesis" useGeneratedKeys="true" keyProperty="thesisId" >
+    insert into thesis (thesis_id, title, content, pro_id,
       cer_id)
-    values (#{thesisId,jdbcType=INTEGER}, #{content,jdbcType=VARCHAR}, #{proId,jdbcType=INTEGER}, 
+    values (#{thesisId,jdbcType=INTEGER}, #{title,jdbcType=VARCHAR},#{content,jdbcType=VARCHAR}, #{proId,jdbcType=INTEGER},
       #{cerId,jdbcType=INTEGER})
   </insert>
-  <insert id="insertSelective" parameterType="com.kason.app.entity.Thesis" >
+  <insert id="insertSelective" parameterType="com.kason.app.entity.Thesis" useGeneratedKeys="true" keyProperty="thesisId" >
     insert into thesis
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="thesisId != null" >
         thesis_id,
+      </if>
+      <if test="title != null" >
+        title,
       </if>
       <if test="content != null" >
         content,
@@ -46,6 +61,9 @@
       <if test="thesisId != null" >
         #{thesisId,jdbcType=INTEGER},
       </if>
+      <if test="title != null" >
+        #{title,jdbcType=VARCHAR},
+      </if>
       <if test="content != null" >
         #{content,jdbcType=VARCHAR},
       </if>
@@ -60,6 +78,9 @@
   <update id="updateByPrimaryKeySelective" parameterType="com.kason.app.entity.Thesis" >
     update thesis
     <set >
+      <if test="title != null" >
+        title = #{title,jdbcType=VARCHAR},
+      </if>
       <if test="content != null" >
         content = #{content,jdbcType=VARCHAR},
       </if>
@@ -74,7 +95,8 @@
   </update>
   <update id="updateByPrimaryKey" parameterType="com.kason.app.entity.Thesis" >
     update thesis
-    set content = #{content,jdbcType=VARCHAR},
+    set title = #{title,jdbcType=VARCHAR},
+      content = #{content,jdbcType=VARCHAR},
       pro_id = #{proId,jdbcType=INTEGER},
       cer_id = #{cerId,jdbcType=INTEGER}
     where thesis_id = #{thesisId,jdbcType=INTEGER}

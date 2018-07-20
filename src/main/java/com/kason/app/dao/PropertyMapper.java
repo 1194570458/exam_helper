@@ -2,6 +2,8 @@ package com.kason.app.dao;
 
 import com.kason.app.entity.Property;
 
+import java.util.List;
+
 public interface PropertyMapper {
     int deleteByPrimaryKey(Integer proId);
 
@@ -14,4 +16,6 @@ public interface PropertyMapper {
     int updateByPrimaryKeySelective(Property record);
 
     int updateByPrimaryKey(Property record);
+
+    List<Property> selectAll();
 }

@@ -11,10 +11,21 @@
     <result column="cer_id" property="cerId" jdbcType="INTEGER" />
   </resultMap>
   <sql id="Base_Column_List" >
-    syn_id, title, select, result, analysis, pro_id, cer_id
+    syn_id, title, `select`, result, analysis, pro_id, cer_id
   </sql>
-  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+  <select id="selectAll" resultMap="BaseResultMap" >
     select 
+    <include refid="Base_Column_List" />
+    from synthesize
+  </select>
+  <select id="selectByCerIdAndProId" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select
+    <include refid="Base_Column_List" />
+    from synthesize
+    where cer_id = #{cerId,jdbcType=INTEGER} and pro_id = #{proId,jdbcType=INTEGER}
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select
     <include refid="Base_Column_List" />
     from synthesize
     where syn_id = #{synId,jdbcType=INTEGER}
@@ -23,15 +34,15 @@
     delete from synthesize
     where syn_id = #{synId,jdbcType=INTEGER}
   </delete>
-  <insert id="insert" parameterType="com.kason.app.entity.Synthesize" >
-    insert into synthesize (syn_id, title, select, 
+  <insert id="insert" parameterType="com.kason.app.entity.Synthesize" useGeneratedKeys="true" keyProperty="synId">
+    insert into synthesize (syn_id, title, `select`,
       result, analysis, pro_id, 
       cer_id)
     values (#{synId,jdbcType=INTEGER}, #{title,jdbcType=VARCHAR}, #{select,jdbcType=VARCHAR}, 
       #{result,jdbcType=INTEGER}, #{analysis,jdbcType=VARCHAR}, #{proId,jdbcType=INTEGER}, 
       #{cerId,jdbcType=INTEGER})
   </insert>
-  <insert id="insertSelective" parameterType="com.kason.app.entity.Synthesize" >
+  <insert id="insertSelective" parameterType="com.kason.app.entity.Synthesize"  useGeneratedKeys="true" keyProperty="synId">
     insert into synthesize
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="synId != null" >
@@ -41,7 +52,7 @@
         title,
       </if>
       <if test="select != null" >
-        select,
+        `select`,
       </if>
       <if test="result != null" >
         result,
@@ -87,7 +98,7 @@
         title = #{title,jdbcType=VARCHAR},
       </if>
       <if test="select != null" >
-        select = #{select,jdbcType=VARCHAR},
+        `select` = #{select,jdbcType=VARCHAR},
       </if>
       <if test="result != null" >
         result = #{result,jdbcType=INTEGER},
@@ -107,7 +118,7 @@
   <update id="updateByPrimaryKey" parameterType="com.kason.app.entity.Synthesize" >
     update synthesize
     set title = #{title,jdbcType=VARCHAR},
-      select = #{select,jdbcType=VARCHAR},
+      `select` = #{select,jdbcType=VARCHAR},
       result = #{result,jdbcType=INTEGER},
       analysis = #{analysis,jdbcType=VARCHAR},
       pro_id = #{proId,jdbcType=INTEGER},

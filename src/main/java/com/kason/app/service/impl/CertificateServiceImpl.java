@@ -46,6 +46,10 @@ public class CertificateServiceImpl implements CertificateService {
         if (getCertificate(id)==null) {
             throw new AppException(ResultEnum.CERTIFICATE_NOT_EXIST);
         }
-        certificateMapper.deleteByPrimaryKey(id);
+        try {
+            certificateMapper.deleteByPrimaryKey(id);
+        } catch (Exception e) {
+            throw new AppException(ResultEnum.CERTIFICATE_USED);
+        }
     }
 }

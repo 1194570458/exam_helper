@@ -15,17 +15,22 @@
     from property
     where pro_id = #{proId,jdbcType=INTEGER}
   </select>
+  <select id="selectAll" resultMap="BaseResultMap" >
+    select
+    <include refid="Base_Column_List" />
+    from property
+  </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
     delete from property
     where pro_id = #{proId,jdbcType=INTEGER}
   </delete>
-  <insert id="insert" parameterType="com.kason.app.entity.Property" >
+  <insert id="insert" parameterType="com.kason.app.entity.Property" useGeneratedKeys="true" keyProperty="proId">
     insert into property (pro_id, chapter, time
       )
     values (#{proId,jdbcType=INTEGER}, #{chapter,jdbcType=VARCHAR}, #{time,jdbcType=TIMESTAMP}
       )
   </insert>
-  <insert id="insertSelective" parameterType="com.kason.app.entity.Property" >
+  <insert id="insertSelective" parameterType="com.kason.app.entity.Property"  useGeneratedKeys="true" keyProperty="proId">
     insert into property
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="proId != null" >

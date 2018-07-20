@@ -3,11 +3,21 @@ package com.kason.app.entity;
 public class Thesis {
     private Integer thesisId;
 
+    private String title;
+
     private String content;
 
     private Integer proId;
 
     private Integer cerId;
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title == null ? null : title.trim();
+    }
 
     public Integer getThesisId() {
         return thesisId;
