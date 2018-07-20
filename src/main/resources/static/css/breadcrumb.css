@@ -1,0 +1,13 @@
+style type="text/css">
+	.breadcrumb > li + li:before {
+    color: #000000;
+    content: "/";
+    paddingl: 7px;
+}
+.breadcrumb-item{
+	padding: 10px;
+	font-size: 18px;
+	font-weight: bold;
+	
+}
+	

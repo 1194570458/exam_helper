@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en"  xmlns:th="http://www.thymeleaf.org">
+
+	<head>
+		<title>后台管理模板</title>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<link rel="stylesheet" href="css/bootstrap.min.css" />
+		<!--    <link rel="stylesheet" href="css/bootstrap-responsive.min.css" />-->
+		<link rel="stylesheet" href="css/matrix-style.css" />
+		<link rel="stylesheet" href="css/matrix-media.css" />
+		<link href="font-awesome/css/font-awesome.css" rel="stylesheet" />
+		<script src="js/exam.function.js"></script>
+		<script src="js/test.js"></script>
+		<script src="js/jquery.min.js"></script>
+		<script src="js/jquery.ui.custom.js"></script>
+		<script src="js/bootstrap.min.js"></script>
+		<!--导航栏-->
+		<script src="js/matrix.js"></script>
+		<!--登录验证设置-->
+
+
+
+	</head>
+
+	<body>
+
+		<!--头部名称-->
+		<div id="header">
+			<h1><a href="dashboard.html">软考后台管理系统</a></h1>
+		</div>
+
+
+		<!--头部菜单-->
+		<div id="user-nav" class="navbar navbar-inverse">
+			<ul class="nav">
+				<li class="dropdown" id="profile-messages">
+		<a title="" href="#"><i class="icon icon-user"></i> <span class="text">&nbsp;欢迎你，admin</span></a>
+					
+					
+				</li>
+				<li class="dropdown" id="menu-messages">
+				</li>
+				<li class="">
+					<a title="" href="#"><i class="icon icon-cog"></i> <span class="text">&nbsp;设置</span></a>
+				</li>
+				<li class="">
+					<a title="" href="login.html"><i class="icon icon-share-alt"></i> <span class="text">&nbsp;退出系统</span></a>
+				</li>
+			</ul>
+		</div>
+		<!--头部菜单-->
+
+		<!--搜索栏-->
+		<div id="search">
+			<input type="text" placeholder="搜索..." />
+			<button type="submit" class="tip-bottom" title="Search"><i class="icon-search icon-white"></i></button>
+		</div>
+		<!--搜索栏-->
+
+		<!--滑动菜单-->
+		<div id="sidebar" style="OVERFLOW-Y: auto; OVERFLOW-X:hidden;">
+			<ul>
+				<li class="submenu active">
+					<a class="menu_a" th:attr="link='index_home'" ><i class="icon icon-home"></i> <span>主页</span></a>
+				</li>
+				<li class="submenu">
+					<a href="#">
+						<i class="icon icon-table"></i>
+						<span>用户管理</span>
+
+					</a>
+					<ul>
+						<li>
+							<a class="menu_a" th:attr="link='user_user'"><i class="icon icon-caret-right"></i>用户管理</a>
+						</li>
+						<li>
+							<a class="menu_a" th:attr="link='user_score'" ><i class="icon icon-caret-right"></i>成绩管理</a>
+						</li>
+						<li>
+							<a class="menu_a" th:attr="link='user_certificate'"><i class="icon icon-caret-right"></i>证书管理</a>
+						</li>
+					</ul>
+				</li>
+				<li class="submenu">
+					<a href="#">
+						<i class="icon icon-th"></i>
+						<span>软考类型管理</span>
+
+					</a>
+					<ul>
+						<li>
+							<a class="menu_a" link="certificate_type"><i class="icon icon-caret-right"></i>软考类型管理</a>
+						</li>
+						<li>
+							<a class="menu_a" link="certificate_2.html"><i class="icon icon-caret-right"></i>软考类型管理2</a>
+						</li>
+						<li>
+							<a class="menu_a" link="certificate_3.html"><i class="icon icon-caret-right"></i>软考类型管理3</a>
+						</li>
+						<li>
+							<a class="menu_a" link="certificate_4.html"><i class="icon icon-caret-right"></i>软考类型管理4</a>
+						</li>
+						<li>
+							<a class="menu_a" link="certificate_5.html"><i class="icon icon-caret-right"></i>软考类型管理5</a>
+						</li>
+						<li>
+							<a class="menu_a" link="certificate_6.html"><i class="icon icon-caret-right"></i>软考类型管理6</a>
+						</li>
+					</ul>
+				</li>
+
+				<li class="submenu">
+					<a href="#">
+						<i class="icon icon-info-sign"></i>
+						<span>试题管理</span>
+
+					</a>
+					<ul>
+						<li>
+							<a class="menu_a" th:attr=" link='knowledge_type'"><i class="icon icon-caret-right"></i>试题类型</a>
+						</li>
+						<li>
+							<a class="menu_a" th:attr="link='knowledge_paper'" ><i class="icon icon-caret-right"></i>题库管理</a>
+						</li>
+						<li>
+							<a class="menu_a" th:attr="link='knowledge_chapter'" ><i class="icon icon-caret-right"></i>综合知识管理</a>
+						</li>
+						<li>
+							<a class="menu_a" th:attr="link='more'" ><i class="icon icon-caret-right"></i>其他设置</a>
+						</li>
+					</ul>
+				</li>
+
+				<li class="submenu">
+					<a href="#">
+						<i class="icon icon-info-sign"></i>
+						<span>待定</span>
+
+					</a>
+					<ul>
+						<li>
+							<a class="menu_a" th:attr="link='certificate_management'"><i class="icon icon-caret-right"></i>证书管理</a>
+						</li>
+						<li>
+							<a class="menu_a" th:attr="link='user_management'"><i class="icon icon-caret-right"></i>待定 </a>
+						</li>
+						<li>
+							<a class="menu_a" th:attr="link='property_management'"><i class="icon icon-caret-right"></i>待定 </a>
+						</li>
+						<li>
+							<a class="menu_a" link="more.html"><i class="icon icon-caret-right"></i>待定</a>
+						</li>
+					</ul>
+				</li>
+
+			</ul>
+		</div>
+		<!--滑动菜单-->
+
+		<!--主页内容-->
+		<div id="content">
+
+			<iframe src="index_home" id="iframe-main" frameborder='0' style="width:100%;"></iframe>
+		</div>
+		<!--主页内容-->
+
+		<!--  版权  -->
+		<footer>
+			<div class="pull-left">
+				<h4>Copyright @ 2017 广东理工职业学院 - 联系电话：(0760)123456</h4>
+          </div>
+          <div class="clearfix"></div>
+        </footer>
+        <!--  版权  -->
+        
+    
+    
+      
+
+
+
+    <script type="text/javascript">
+
+    //初始化相关元素高度
+    function init(){
+        $("body").height($(window).height()-80);
+        $("#iframe-main").height($(window).height()-90);
+        $("#sidebar").height($(window).height()-50);
+    }
+
+    $(function(){
+        init();
+        $(window).resize(function(){
+            init();
+        });
+    });
+
+   //这个函数从弹出菜单调用，转移到另一个页面。如果返回的值是空字符串，请忽略：
+    function goPage (newURL) {
+        // 如果URL是空的，跳过菜单分隔符，并将菜单选项重置为默认值。
+        if (newURL != "") {
+            // 如果URL是“-”，就是这个页面——重置菜单：
+            if (newURL == "-" ) {
+                resetMenu();            
+            } 
+            //否则，将页面发送到指定URL         
+            else {  
+                document.location.href = newURL;
+            }
+        }
+    }
+
+    // 在进入此页时重置菜单选择：
+    function resetMenu() {
+        document.gomenu.selector.selectedIndex = 2;
+    }
+
+    // uniform使用示例：
+//     $.uniform.update($(this).attr("checked", true));
+    </script>
+    
+</body>
+</html>

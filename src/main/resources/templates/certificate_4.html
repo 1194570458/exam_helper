@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<title>软考类型管理</title>
+		<link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
+		<link rel="stylesheet" type="text/css" href="css/jquery.dataTables.min.css">
+
+	</head>
+
+	<body>
+		<!--表格-->
+		<table id="ruan_table" class=" table table-striped table-bordered table-hover" cellspacing="0" width="100%">
+
+			<thead>
+
+				<tr>
+					<th>软考类型ID</th>
+					<th>证书ID</th>
+					<th>软考类型名称</th>
+					<th>操作</th>
+
+				</tr>
+
+			</thead>
+
+			<tbody>
+
+			</tbody>
+
+			<!--	模态框	-->
+			<button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#ruan_add_Modal">  
+  				点击添加软考类型
+</button>
+			<!--添加软考类型模态框-->
+			<div class="modal fade" id="ruan_add_Modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+				<div class="modal-dialog" role="document">
+					<div class="modal-content">
+						<div class="modal-header">
+							<button type="button" class="close" data-dismiss="modal" aria-label="Close">  
+                    <span aria-hidden="true">x</span>  
+                </button>
+							<h4 class="modal-title" id="myModalLabel">添加软考类型</h4>
+						</div>
+						<div class="modal-body">
+							<p>软考类型名称:</p>
+							<input type="text" class="form-control" id="ruan_add_typeName" />
+						</div>
+						<div class="modal-footer">
+							<button type="button" class="btn btn-primary" id="ruan_add_submit">确认</button>
+							<button type="button" class="btn btn-default" data-dismiss="modal" id="ruan_add_dismiss">取消</button>
+
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<!--更改软考类型模态框-->
+
+			<div class="modal fade" id="ruan_edit_Modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+				<div class="modal-dialog" role="document">
+					<div class="modal-content">
+						<div class="modal-header">
+							<button type="button" class="close" data-dismiss="modal" aria-label="Close">  
+                    <span aria-hidden="true">x</span>  
+                </button>
+							<h4 class="modal-title" id="myModalLabel">更改软考类型</h4>
+						</div>
+						<div class="modal-body">
+							<p>更改后软考类型名称:</p>
+							<input type="text" class="form-control" id="ruan_edit_typeName" />
+						</div>
+						<div class="modal-footer">
+							<button type="button" class="btn btn-primary" id="ruan_edit_submit">确认</button>
+							<button type="button" class="btn btn-default" data-dismiss="modal" id="ruan_edit_dismiss">取消</button>
+
+						</div>
+					</div>
+				</div>
+			</div>
+
+		</table>
+
+		<!--以下是JS文件和JS方法-->
+		<script src="js/jquery-3.2.1.min.js"></script>
+		<script src="js/bootstrap.min.js"></script>
+		<script src="js/jquery.dataTables.min.js"></script>
+		<script type="text/javascript">
+			$(document).ready(function() {
+
+				var table = $("#ruan_table").DataTable({
+					//将语言改成中文
+					"oLanguage": {
+						"sProcessing": "处理中...",
+						"sLengthMenu": "每页 _MENU_ 项",
+						"sZeroRecords": "没有匹配结果",
+						"sInfo": "当前显示第 _START_ 至 _END_ 项，共 _TOTAL_ 项。",
+						"sInfoEmpty": "当前显示第 0 至 0 项，共 0 项",
+						"sInfoFiltered": "(由 _MAX_ 项结果过滤)",
+						"sInfoPostFix": "",
+						"sSearch": "模糊查询:",
+						"sUrl": "",
+						"sEmptyTable": "表中数据为空",
+						"sLoadingRecords": "载入中...",
+						"sInfoThousands": ",",
+						"oPaginate": {
+							"sFirst": "首页",
+							"sPrevious": "上页",
+							"sNext": "下页",
+							"sLast": "末页",
+							"sJump": "跳转"
+						},
+						"oAria": {
+							"sSortAscending": ": 以升序排列此列",
+							"sSortDescending": ": 以降序排列此列"
+						}
+					},
+
+					"info": true, //这个我不知道是什么   反正true和false是一样的
+					"paging": true, //开启分页
+					"processing": false, //隐藏加载提示,自行处理  
+					"searching": true, //模糊查询
+					//data 这里是固定不变的 使用对象数组，一定要配置columns，告诉 DataTables 每列对应的属性
+					columns: [{
+							data: 'id' //第一列对应id
+						},
+						{
+							data: 'examName'
+						}, {
+							data: 'certificateTypeId' //软考类型名称
+						}, {
+							data: null
+						}
+					],
+
+					"aoColumnDefs": [
+
+						{
+							"targets": -1, //对最后一列操作
+							"data": null,
+							"bSortable": false,
+							"defaultContent": "<p>&nbsp;&nbsp;&nbsp;&nbsp;<a id=\"ruan_edit\" href=\"#\">修改</a>&nbsp;&nbsp;&nbsp;&nbsp;<a id=\"ruan_del\"  href=\"#\">删除</a></p>"
+							//对最后一行每一列添加修改 删除操作
+						}
+
+					],
+
+					//嵌套Ajax   使用ajax异步请求
+
+					ajax: {
+						//						async: true,
+
+						type: "get",
+
+						url: 'testJson/data.json'
+						//	url: 	http://192.168.1.197:8088/examtype/getall 	
+					}
+
+				});
+				//行内修改触发事件
+				$('#ruan_table tbody').on('click', 'a#ruan_edit',
+					function() {
+						//获取当前行对应内容
+						var data = $('#ruan_table').DataTable().row($(this).parents('tr')).data();
+
+						$("#ruan_edit_Modal").modal();
+						$("#ruan_edit_submit").click(function() {
+							var edit_typeId = data.id;
+							var edit_typeName = document.getElementById("ruan_edit_typeName").value;
+
+							ruan_edit(edit_typeId, edit_typeName);
+
+							$("#ruan_edit_dismiss").trigger("click")
+						});
+
+						//							$("#myModal2").modal(); //打开更改模态框
+						//							$("#edi_submit").click(function() {
+						//								var edi_certificateName = document.getElementById('edi_certificateName').value;
+						//								edi_certificate(id, edi_certificateName);
+						//								$("#edi_dismiss").trigger("click");
+						//
+						//							});
+
+					});
+				//行内删除触发事件
+				$('#ruan_table tbody').on('click', 'a#ruan_del', function() {
+
+					//获取当前点击正行数据
+					var data = $('#ruan_table').DataTable().row($(this).parents('tr')).data();
+
+					var con;
+					var del_TypeId = data.id;
+					con = confirm("确认删除证书" + data.examName + "?"); //在页面上弹出对话框
+					if(con == true) {
+						ruan_del(del_TypeId);
+
+					};
+
+				});
+
+			});
+
+			//添加触发事件
+			$("#ruan_add_submit").click(function() {
+				var add_typeName = document.getElementById("ruan_add_typeName").value;
+				ruan_add(add_typeName);
+
+			});
+
+			//更改软考类型
+			function ruan_edit(edit_id, edit_typeName) {
+				var data = '{"id": ' + edit_id + ',"examName": "' + edit_typeName + '","certificateTypeId": 1}';
+				//					$.ajax({
+				//						type: "POST",
+				//
+				//						url: "http://192.168.1.197:8088/examtype/update",
+				//						contentType: 'application/json',
+				//						dataType: "json",
+				//						headers: {
+				//							"username": "admin",
+				//							"password": "admin"
+				//						},
+				//						success: function(data) {
+				//							alert(data.msg);
+				//						},
+				//						error: function(data) {
+				//							alert(data.msg)
+				//						}
+				//
+				//					});
+				alert(data);
+			};
+
+			//删除软考类型
+			function ruan_del(del_id) {
+
+				//					$.ajax({
+				//						type: "GET",
+				//
+				//						url: "http://192.168.1.197:8088/examtype/delete/"+del_id,
+				//						contentType: 'application/json',
+				//						dataType: "json",
+				//						headers: {
+				//							"username": "admin",
+				//							"password": "admin"
+				//						},
+				//						success: function(data) {
+				//							alert(data.msg);
+				//						},
+				//						error: function(data) {
+				//							alert(data.msg)
+				//						}
+				//
+				//					});
+				alert(del_id);
+			};
+
+			function ruan_add(add_typeName) {
+				var data = '{"examName":"' + add_typeName + '","certificateTypeId":1}';
+				//				$.ajax({
+				//					type: "POST",
+				//					url: "http://192.168.1.197:8088/examtype/add",
+				//					contentType: "application/json",
+				//					dataType: "json",
+				//					headers: {
+				//						"username": "admin",
+				//						"password": "admin"
+				//					},
+				//					success: function(data) {
+				//						alert(data.msg);
+				//					},
+				//					error: function(data) {
+				//						alert(data.msg);
+				//					}
+				//
+				//				});
+
+				alert(add_typeName);
+			}
+		</script>
+
+	</body>
+
+</html>

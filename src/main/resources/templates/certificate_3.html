@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+	//增加证书
+
+	<head>
+		<meta charset="utf-8">
+
+		<title>权限管理页面</title>
+		<link rel="stylesheet" href="css/bootstrap.css">
+
+	</head>
+
+	<body>
+		<h1><a  id="add">点击添加证书</a></h1>
+
+		<script src="js/jquery-3.2.1.min.js"></script>
+		<script type="text/javascript">
+			$("#add").click(function() {
+
+				//								var username = "admin";
+				//								var password = "admin";
+				var host = "192.168.1.197:8088";
+				var name = "小鸡巴成11";
+				var data = '{"certificateName":"' + name + '"}';
+				alert(data);
+				$.ajax({
+
+					data: data,
+					type: "POST",
+					url: "http://192.168.1.197:8088/certificate/add",
+					contentType: 'application/json',
+					dataType: "json",
+					//					beforeSend: function(xhr) {
+					//						xhr.setRequestHeader("username", "admin");
+					//						xhr.setRequestHeader("password", "admin");
+					//						
+					//					},
+					success: function(res) {
+						alert(res);
+						console.log(res)
+					},
+					error: function(res) {
+						console.log(res);
+						alert("error");
+					},
+					headers: {
+						"username": "admin",
+						"password": "admin"
+					}
+
+				});
+				return false
+			});
+		</script>
+	</body>
+
+</html>
