@@ -23,7 +23,7 @@ public class PropertyController {
      * @return
      */
     @PostMapping("/property")
-    public Result<Property> addProperty(@RequestBody Property property) {
+    public Result<Property> Property(@RequestBody Property property) {
         Property p = null;
         if (property.getProId() == null) {
             if (property.getChapter() == null) {
@@ -67,7 +67,7 @@ public class PropertyController {
      * @param id
      * @return
      */
-    @GetMapping("/property/del/{id}")
+    @PostMapping("/property/{id}")
     public Result<Property> delProperty(@PathVariable Integer id){
         propertyService.delProperty(id);
         return  ResultUtil.success();
