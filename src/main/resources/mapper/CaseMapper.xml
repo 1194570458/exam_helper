@@ -13,26 +13,37 @@
   <sql id="Base_Column_List" >
     case_id, title, content, img, result, pro_id, cer_id
   </sql>
-  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
-    select 
+  <select id="selectAll" resultMap="BaseResultMap"  >
+    select
     <include refid="Base_Column_List" />
-    from case
+    from `case`
+  </select>
+  <select id="selectByCerIdAndProId" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select
+    <include refid="Base_Column_List" />
+    from `case`
+    where pro_id = #{proId,jdbcType=INTEGER} and cer_id = #{cerId,jdbcType=INTEGER}
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select
+    <include refid="Base_Column_List" />
+    from `case`
     where case_id = #{caseId,jdbcType=INTEGER}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
-    delete from case
+    delete from `case`
     where case_id = #{caseId,jdbcType=INTEGER}
   </delete>
-  <insert id="insert" parameterType="com.kason.app.entity.Case" >
-    insert into case (case_id, title, content, 
+  <insert id="insert" parameterType="com.kason.app.entity.Case" useGeneratedKeys="true" keyProperty="caseId">
+    insert into `case` (case_id, title, content,
       img, result, pro_id, 
       cer_id)
     values (#{caseId,jdbcType=INTEGER}, #{title,jdbcType=VARCHAR}, #{content,jdbcType=VARCHAR}, 
       #{img,jdbcType=VARCHAR}, #{result,jdbcType=VARCHAR}, #{proId,jdbcType=INTEGER}, 
       #{cerId,jdbcType=INTEGER})
   </insert>
-  <insert id="insertSelective" parameterType="com.kason.app.entity.Case" >
-    insert into case
+  <insert id="insertSelective" parameterType="com.kason.app.entity.Case" useGeneratedKeys="true" keyProperty="caseId" >
+    insert into `case`
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="caseId != null" >
         case_id,
@@ -81,7 +92,7 @@
     </trim>
   </insert>
   <update id="updateByPrimaryKeySelective" parameterType="com.kason.app.entity.Case" >
-    update case
+    update `case`
     <set >
       <if test="title != null" >
         title = #{title,jdbcType=VARCHAR},
@@ -105,7 +116,7 @@
     where case_id = #{caseId,jdbcType=INTEGER}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.kason.app.entity.Case" >
-    update case
+    update `case`
     set title = #{title,jdbcType=VARCHAR},
       content = #{content,jdbcType=VARCHAR},
       img = #{img,jdbcType=VARCHAR},
