@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<title>用户成绩管理</title>
+		<link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
+		<link rel="stylesheet" type="text/css" href="css/jquery.dataTables.min.css">
+
+	</head>
+
+	<body>
+
+<div style="margin: 30px; margin-top: 50px;" >
+				<!--添加用户按钮激发模态框	-->
+			<button type="button" class="btn btn-primary btn-success" data-toggle="modal" data-target="#score_add_Modal" style="margin-bottom: 10px;">
+  				添加用户成绩
+</button>
+			<!--添加成绩内部↓-->
+			<div  class="modal fade" id="score_add_Modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+				<div class="modal-dialog" role="document">
+					<div class="modal-content">
+						<div class="modal-header">
+							<button type="button" class="close" data-dismiss="modal" aria-label="Close">  
+                    <span aria-hidden="true">x</span>  
+                </button>
+							<h4 class="modal-title" id="myModalLabel">添加用户成绩</h4>
+						</div>
+						<div class="modal-body">
+							<p>用户名:</p>
+							<input type="text" class="form-control" id="score_add_username" />
+							<p>所属栏目</p>
+								<select id="add_select" >
+								  <option value ="软件测试">软件测试</option>
+								  <option value ="软件开发">软件开发</option>
+								</select>
+							
+							<p>用户成绩:</p>
+							<input type="text" class="form-control" id="score_add_score" />
+
+						</div>
+						<div class="modal-footer">
+							<button type="button" class="btn btn-primary" id="score_add_submit">确认</button>
+							<button type="button" class="btn btn-default" data-dismiss="modal" id="score_add_dismiss">取消</button>
+
+						</div>
+					</div>
+				</div>
+			</div>
+		<!--添加用户内部↑-->
+		
+		
+		<!--DateTable表格-->
+		<table id="score_user" class=" table table-striped table-bordered table-hover" cellspacing="0" width="100%">
+
+			<thead>
+
+				<tr>
+					<th>用户ID</th>
+					<th>用户名</th>
+					<th>所属栏目</th>
+					<th>用户成绩</th>
+					<th>操作</th>
+
+				</tr>
+
+			</thead>
+
+			<tbody>
+
+			</tbody>
+
+
+
+			<!--更改用户↓-->
+			<div class="modal fade" id="score_edit_Modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+				<div class="modal-dialog" role="document">
+					<div class="modal-content">
+						<div class="modal-header">
+							<button type="button" class="close" data-dismiss="modal" aria-label="Close">  
+                    <span aria-hidden="true">x</span>  
+                </button>
+							<h4 class="modal-title" id="myModalLabel">更改用户成绩</h4>
+						</div>
+						<div class="modal-body">
+							<p>更改后所属栏目:</p>
+								<select id="edit_select" >
+								  <option value ="软件测试">软件测试</option>
+								  <option value ="软件开发">软件开发</option>
+								</select>
+							<p>更改后用户成绩:</p>
+							<input type="text" class="form-control" id="score_edit_score" />
+						</div>
+						<div class="modal-footer">
+							<button type="button" class="btn btn-primary" id="score_edit_submit">确认</button>
+							<button type="button" class="btn btn-default" data-dismiss="modal" id="score_edit_dismiss">取消</button>
+
+						</div>
+					</div>
+				</div>
+			</div>
+         <!--更改用户↑-->
+         
+		</table>
+		</div>
+
+		<!--以下是JS文件和JS方法-->
+		<script src="js/jquery-3.2.1.min.js"></script>
+		<script src="js/bootstrap.min.js"></script>
+		<script src="js/jquery.dataTables.min.js"></script>
+		<script type="text/javascript">
+			$(document).ready(function() {
+
+				var table = $("#score_user").DataTable({
+					//将语言改成中文
+					"oLanguage": {
+						"sProcessing": "处理中...",
+						"sLengthMenu": "每页 _MENU_ 项",
+						"sZeroRecords": "没有匹配结果",
+						"sInfo": "当前显示第 _START_ 至 _END_ 项，共 _TOTAL_ 项。",
+						"sInfoEmpty": "当前显示第 0 至 0 项，共 0 项",
+						"sInfoFiltered": "(由 _MAX_ 项结果过滤)",
+						"sInfoPostFix": "",
+						"sSearch": "模糊查询:",
+						"sUrl": "",
+						"sEmptyTable": "表中数据为空",
+						"sLoadingRecords": "载入中...",
+						"sInfoThousands": ",",
+						"oPaginate": {
+							"sFirst": "首页",
+							"sPrevious": "上页",
+							"sNext": "下页",
+							"sLast": "末页",
+							"sJump": "跳转"
+						},
+						"oAria": {
+							"sSortAscending": ": 以升序排列此列",
+							"sSortDescending": ": 以降序排列此列"
+						}
+					},
+
+					"info": true, //这个我不知道是什么   反正true和false是一样的
+					"paging": true, //开启分页
+					"processing": false, //隐藏加载提示,自行处理  
+					"searching": true, //模糊查询
+					//data 这里是固定不变的 使用对象数组，一定要配置columns，告诉 DataTables 每列对应的属性
+					columns: [{
+							data: 'id' //第一列对应id
+						},
+						{
+							data: 'username'
+						}, {
+							data: 'certificateTypeId' //软考类型名称
+						}, {
+							data: 'score'
+						},{
+							data: null
+						}
+					],
+
+					"aoColumnDefs": [
+
+						{
+							"targets": -1, //对最后一列操作
+							"data": null,
+							"bSortable": false,
+							"defaultContent": "<p>&nbsp;&nbsp;&nbsp;&nbsp;<a id=\"score_edit\" href=\"#\">修改</a>&nbsp;&nbsp;&nbsp;&nbsp;<a id=\"user_del\"  href=\"#\">删除</a></p>"
+							//对最后一行每一列添加修改 删除操作
+						}
+
+					],
+
+					//嵌套Ajax   使用ajax异步请求
+
+					ajax: {
+						//						async: true,
+
+						type: "get",
+
+						url: 'testJson/score.json'
+						//	url: 	http://192.168.1.197:8088/examtype/getall 	
+					}
+
+				});
+				//行内修改触发事件
+				$('#score_user tbody').on('click', 'a#score_edit',
+					function() {
+						//获取当前行对应内容
+						var data = $('#score_user').DataTable().row($(this).parents('tr')).data();
+
+						$("#score_edit_Modal").modal();
+						$("#score_edit_submit").click(function() {
+							var edit_typeId = data.id;
+							var edit_user = document.getElementById("score_edit_username").value;
+
+							score_edit(edit_typeId, edit_user);
+
+							$("#score_edit_dismiss").trigger("click")
+						});
+
+						//							$("#myModal2").modal(); //打开更改模态框
+						//							$("#edi_submit").click(function() {
+						//								var edi_certificateName = document.getElementById('edi_certificateName').value;
+						//								edi_certificate(id, edi_certificateName);
+						//								$("#edi_dismiss").trigger("click");
+						//
+						//							});
+
+					});
+				//行内删除触发事件
+				$('#score_user tbody').on('click', 'a#user_del', function() {
+
+					//获取当前点击正行数据
+					var data = $('#score_user').DataTable().row($(this).parents('tr')).data();
+
+					var con;
+					var del_TypeId = data.id;
+					con = confirm("确认删除用户   "+data.username+"   的成绩?"); //在页面上弹出对话框
+					if(con == true) {
+						user_del(del_TypeId);
+
+					};
+
+				});
+
+			});
+
+			//添加按钮触发事件
+			$("#score_add_submit").click(function() {
+				var add_username = document.getElementById("score_add_username").value;
+				var add_score=document.getElementById("score_add_score").value;
+				var add_test=document.getElementById("add_select").value;
+				score_add(add_username,add_score,add_test);
+
+			});
+
+			//下拉框内容
+//			function getContent(){
+//				 var oSelect = document.getElementById('add_select');
+//          var ind = oSelect.selectedIndex;
+//          var val = oSelect.options[oSelect.selectedIndex].value;
+//          var tex = oSelect.options[oSelect.selectedIndex].text;
+//          alert('ind = ' + ind + '\nval = ' + val + '\ntext = ' + tex);
+//			}
+
+
+			//更改用户
+			function score_edit(edit_id, edit_username,edit_password) {
+				var data = '{"id": ' + edit_id + ',"examName": "' + edit_username + '","certificateTypeId": 1}'+edit_password;
+				//					$.ajax({
+				//						type: "POST",
+				//
+				//						url: "http://192.168.1.197:8088/examtype/update",
+				//						contentType: 'application/json',
+				//						dataType: "json",
+				//						headers: {
+				//							"username": "admin",
+				//							"password": "admin"
+				//						},
+				//						success: function(data) {
+				//							alert(data.msg);
+				//						},
+				//						error: function(data) {
+				//							alert(data.msg)
+				//						}
+				//
+				//					});
+				alert("用户名:"+edit_username+"\n"+"用户密码:"+edit_password);
+			};
+
+			//删除用户
+			function user_del(del_id) {
+
+				//					$.ajax({
+				//						type: "GET",
+				//
+				//						url: "http://192.168.1.197:8088/examtype/delete/"+del_id,
+				//						contentType: 'application/json',
+				//						dataType: "json",
+				//						headers: {
+				//							"username": "admin",
+				//							"password": "admin"
+				//						},
+				//						success: function(data) {
+				//							alert(data.msg);
+				//						},
+				//						error: function(data) {
+				//							alert(data.msg)
+				//						}
+				//
+				//					});
+				alert(del_id);
+			};
+
+
+              //添加用户成绩
+			function score_add(add_username,add_score,add_test) {
+				var data = '{"examName":"' + add_username + '","certificateTypeId":1}';
+				
+				//				$.ajax({
+				//					type: "POST",
+				//					url: "http://192.168.1.197:8088/examtype/add",
+				//					contentType: "application/json",
+				//					dataType: "json",
+				//					headers: {
+				//						"username": "admin",
+				//						"password": "admin"
+				//					},
+				//					success: function(data) {
+				//						alert(data.msg);
+				//					},
+				//					error: function(data) {
+				//						alert(data.msg);
+				//					}
+				//
+				//				});
+
+				alert("用户名:"+add_username+"\n"+"用户成绩:"+add_score+"\n"+"所属科目"+add_test);
+			}
+			
+		</script>
+
+	</body>
+
+</html>
