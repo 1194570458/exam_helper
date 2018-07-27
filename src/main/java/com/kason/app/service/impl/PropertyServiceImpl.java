@@ -48,4 +48,9 @@ public class PropertyServiceImpl implements PropertyService {
             throw new AppException(ResultEnum.PROPERTY_USED);
         }
     }
+
+    @Override
+    public List<Property> getNewPropertys(Integer id) {
+        return propertyMapper.selectNewPropertysById(id);
+    }
 }

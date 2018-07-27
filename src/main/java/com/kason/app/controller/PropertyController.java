@@ -62,6 +62,12 @@ public class PropertyController {
         return ResultUtil.success(p);
     }
 
+    @GetMapping("/property/new/{id}")
+    public Result<Property> getNewProperties(@PathVariable("id") Integer id){
+        List<Property> p =propertyService.getNewPropertys(id);
+        return ResultUtil.success(p);
+    }
+
     /**
      * 根据id删除章节
      * @param id

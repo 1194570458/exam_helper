@@ -14,4 +14,6 @@ public interface PropertyService {
     Property getProperty(Integer id);
 
     void delProperty(Integer id);
+
+    List<Property> getNewPropertys(Integer id);
 }
