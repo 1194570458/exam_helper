@@ -215,6 +215,96 @@ function edit_property(edit_id, edit_propertyName,edit_time) {
         }
     });
 }
+/**
+ * 论文题管理
+ *
+ */
+//增加题目
+function add_thesis(add_thesisTitle,add_thesisContent,add_thesisproId,add_thesiscerId) {
+    var table="#table_thesis";
+    var data = '{"title":"' + add_thesisTitle +'", "content":"'+add_thesisContent+'","proId":"'+add_thesisproId+'","cerId":"'+add_thesiscerId+'"}';
+    $.ajax({
+        data: data,
+        type: "POST",
+
+        url: "http://127.0.0.1:8080/thesis",
+        contentType: 'application/json',
+        dataType: "json",
+
+        success: function(data) {
+            reloadTable(table);
+            alert(data.msg);
+        },
+        error: function(data) {
+            alert(data.msg);
+
+        }
+        // ,
+        // headers: {
+        //     "username": "admin",
+        //     "password": "admin"
+        // }
+    });
+}
+
+//删除题目
+function del_thesis(del_id) {
+    var table="#table_thesis";
+    $.ajax({
+
+        type: "POST",
+
+        url: "http://127.0.0.1:8080/thesis/"+del_id,
+        contentType: 'application/json',
+        dataType: "json",
+
+
+        success: function(data) {
+            reloadTable(table);
+            alert(data.msg);
+
+        },
+        error: function(data) {
+            alert(data.msg);
+
+
+        }
+        // ,
+        // headers: {
+        //     "username": "admin",
+        //     "password": "admin"
+        // }
+    });
+}
+
+//更改证书
+function edit_thesis(edit_id, edit_thesisTitle,edit_thesisContent,edit_thesisproId,edit_thesiscerId) {
+    var table="#table_thesis";
+    var data = '{"thesisId":"' + edit_id +'", "title":"'+edit_thesisTitle+'","content":"'+edit_thesisContent+'","proId":"'+edit_thesisproId+'","cerId":"'+edit_thesiscerId+'"}';
+    alert(data);
+    $.ajax({
+
+        data: data,
+        type: "POST",
+        url: "http://127.0.0.1:8080/thesis",
+        contentType: 'application/json',
+        dataType: "json",
+
+        success: function(data) {
+            reloadTable(table);
+            alert(data.msg);
+        },
+        error: function(data) {
+            alert(data.msg);
+
+        }
+    });
+}
+
+
+
+
+
 
 
 

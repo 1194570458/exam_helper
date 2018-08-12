@@ -1,10 +1,226 @@
 <!DOCTYPE html>
+<html lang="en"  xmlns:th="http://www.thymeleaf.org">
 <html>
-	<head>
-		<meta charset="UTF-8">
-		<title></title>
-	</head>
-	<body>
-		综合知识题管理
-	</body>
+
+<head>
+	<link rel="stylesheet" href="css/jquery.dataTables.min.css" />
+	<link rel="stylesheet" href="css/bootstrap.min.css" />
+	<script src="js/exam.function.js"></script>
+	<script src="js/jquery-3.2.1.min.js"></script>
+	<script src="js/bootstrap.min.js"></script>
+	<script src="js/jquery.dataTables.min.js"></script>
+
+	<meta charset="utf-8">
+	<title>综合知识管理</title>
+
+</head>
+
+<body>
+<div style="margin: 30px; margin-top: 50px;" >
+	<!--	模态框	-->
+	<button style="margin-bottom: 10px;" id="add_synthesize_Button" type="button" class="btn btn-primary btn-success" data-toggle="modal" data-target="#add_synthesize_Modal">
+		添加章节
+	</button>
+	<!--添加章节模态框-->
+	<div class="modal fade" id="add_synthesize_Modal" tabindex="-1" role="dialog" aria-labelledby="add_synthesize_ModalLabel">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+						<span aria-hidden="true">x</span>
+					</button>
+					<h4 class="modal-title" id="add_synthesize_ModalLabel">添加章节</h4>
+				</div>
+				<div class="modal-body">
+					<p>章节名称:</p>
+					<input type="text" class="form-control" id="add_synthesizeName"   />
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-primary" id="add_synthesize_submit">确认</button>
+					<button type="button" class="btn btn-default" data-dismiss="modal" id="dismiss">取消</button>
+
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!--更改证书模态框-->
+
+	<div class="modal fade" id="edit_synthesize_Button" tabindex="-1" role="dialog" aria-labelledby="edit_synthesize_ModalLabel">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+						<span aria-hidden="true">x</span>
+					</button>
+					<h4 class="modal-title" id="edit_synthesize_ModalLabel">更改章节</h4>
+				</div>
+				<div class="modal-body">
+					<p>更改后章节名称:</p>
+					<input type="text" class="form-control" id="edit_synthesizeName" />
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-primary" id="edit_submit">确认</button>
+					<button type="button" class="btn btn-default" data-dismiss="modal" id="edit_dismiss">取消</button>
+
+				</div>
+			</div>
+		</div>
+	</div>
+
+
+
+
+
+	<!--表格-->
+	<table id="table_synthesize" class=" table table-striped table-bordered table-hover" cellspacing="0" width="100%">
+
+		<thead>
+
+		<tr>
+			<th>id</th>
+			<th>章节名称</th>
+			<th>更改时间</th>
+			<th>操作</th>
+		</tr>
+		</thead>
+		<tbody>
+		</tbody>
+
+	</table>
+</div>
+
+<script type="text/javascript">
+
+
+    //初始化datatable  获取数据
+    $(document).ready(function() {
+
+        var C_table = $('#table_synthesize').dataTable({
+
+            //将语言改成中文
+            "oLanguage": {
+                "sProcessing": "处理中...",
+                "sLengthMenu": "每页 _MENU_ 项",
+                "sZeroRecords": "没有匹配结果",
+                "sInfo": "当前显示第 _START_ 至 _END_ 项，共 _TOTAL_ 项。",
+                "sInfoEmpty": "当前显示第 0 至 0 项，共 0 项",
+                "sInfoFiltered": "(由 _MAX_ 项结果过滤)",
+                "sInfoPostFix": "",
+                "sSearch": "模糊查询:",
+                "sUrl": "",
+                "sEmptyTable": "表中数据为空",
+                "sLoadingRecords": "载入中...",
+                "sInfoThousands": ",",
+                "oPaginate": {
+                    "sFirst": "首页",
+                    "sPrevious": "上页",
+                    "sNext": "下页",
+                    "sLast": "末页",
+                    "sJump": "跳转"
+                },
+                "oAria": {
+                    "sSortAscending": ": 以升序排列此列",
+                    "sSortDescending": ": 以降序排列此列"
+                }
+            },
+
+            "info": true, //这个我不知道是什么   反正true和false是一样的
+            "paging": true, //开启分页
+            "processing": false, //隐藏加载提示,自行处理
+            "searching": true, //模糊查询
+            "fnDraw": true, //不更改页面
+            //data 这里是固定不变的 使用对象数组，一定要配置columns，告诉 DataTables 每列对应的属性
+            columns: [{
+
+                data: 'synId' //第一列对应id
+            },
+                {
+                    data: 'title' //章节名称
+                }, {
+                    data: 'time'//更改时间
+                }, {
+                    data: null //设置为空后续添加对应操作
+                }
+            ],
+            "aoColumnDefs": [
+
+                {
+                    "targets": -1, //对最后一列操作
+                    "data": null,
+                    "bSortable": false,
+                    "defaultContent": "<p>&nbsp;&nbsp;&nbsp;&nbsp;<a id=\"edit\" href=\"#\">修改</a>&nbsp;&nbsp;&nbsp;&nbsp;<a id=\"del\"  href=\"#\">删除</a></p>"
+                    //对最后一行每一列添加修改 删除操作
+                }
+
+            ],
+
+            //嵌套AJAX  使用ajax异步请求
+            ajax: {
+                type: "get",
+                url: 'http://127.0.0.1/synthesizes',
+
+            }
+
+        });
+
+
+        //修改证书
+        $('#table_property tbody').on('click', 'a#edit',
+            function() {
+                //获取当前行对应内容
+                var data = $('#table_property').DataTable().row($(this).parents('tr')).data();
+                var edit_id = data.proId;
+                $("#edit_property_Button").modal(); //打开更改模态框
+                $("#edit_submit").click(function() {
+                    var edit_propertyName = document.getElementById('edit_propertyName').value;
+                    var edit_time=getDate();
+                    edit_property(edit_id, edit_propertyName,edit_time);
+                    $("#edit_dismiss").trigger("click");
+
+                });
+
+            });
+
+
+
+
+
+        //删除证书
+        $('#table_property tbody').on('click', 'a#del', function() {
+            //获取当前点击行整行数据
+            var data = $('#table_property').DataTable().row($(this).parents('tr')).data();
+            var con;
+            var del_id = data.proId;
+            con = confirm("确认删除证书    " + data.chapter + "    ?"); //对话框
+            if(con == true) {
+                del_property(del_id);
+            };
+
+        });
+
+        //添加证书Button
+        $("#add_property_Button").click(function () {
+            $("#add_propertyName").val("");
+            //证书提交提交
+            $("#add_property_submit").click(function() {
+                var add_propertyName = document.getElementById('add_propertyName').value;
+                var add_time=getDate();
+                add_property(add_propertyName,add_time);
+                $("#dismiss").trigger("click");
+            });
+        });
+
+    });
+
+
+
+
+
+
+
+</script>
+
+</body>
+
 </html>
